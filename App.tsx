@@ -5,9 +5,11 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
+  LayoutAnimation,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -57,6 +59,7 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [isOpen, setIsOpen] = useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -76,20 +79,22 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <Button
+            title="Press for Layout Anim"
+            onPress={() => {
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut,
+              );
+              setIsOpen(prev => !prev);
+            }}
+          />
+          {isOpen && (
+            <View style={{width: '100%', height: 100, backgroundColor: 'red', justifyContent: "space-evenly"}}>
+              <View style={{width: '100%', height: 10, backgroundColor: 'white'}} />
+              <View style={{width: '100%', height: 10, backgroundColor: 'white'}} />
+              <View style={{width: '100%', height: 10, backgroundColor: 'white'}} />
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
